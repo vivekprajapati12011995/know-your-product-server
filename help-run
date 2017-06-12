@@ -1,0 +1,3 @@
+1> install nodeJS server in your PC
+2> then run Angular module using command http-server (in the folder where index.html reside)
+3> then start noderest project and run the server using npm run dev(it will start the server)

@@ -1,0 +1,6 @@
+mongo db url = mongodb://vivek_mongo:vivek1200@ds139761.mlab.com:39761/star_wars_db;
+which is hosted on
+
+https://mlab.com/databases/star_wars_db#users
+
+> to start the server : npm run dev (it will start the server on defined port number)
