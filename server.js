@@ -2,7 +2,9 @@ var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 
-var productController = require('./controllers/productController');
+var productController= require('./controllers/productController');
+var userController= require('./controllers/userController');
+var authController = require('./controllers/authController');
 
 
 // Create our Express application
@@ -13,6 +15,24 @@ var router = express.Router();
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+
+
+// Create endpoint handlers for /products
+router.route('/products')
+  .post(authController.isAuthenticated,productController.postProduct)
+  .get(productController.getProducts);
+
+// Create endpoint handlers for /products/:id
+router.route('/products/:id')
+  .get(productController.getProduct)
+  .put(authController.isAuthenticated,productController.updateProduct)
+  .delete(authController.isAuthenticated,productController.deleteProduct);
+
+//Create endpoint handlers for /users
+router.route('/users')
+.get(authController.isAuthenticated,userController.postUser)
+.post(userController.postUser);
+
 
 router.get('/', function (req, res) {
   res.json({ message: 'invalid request' });

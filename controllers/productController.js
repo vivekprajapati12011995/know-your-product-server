@@ -1,4 +1,4 @@
-var Product = require('./models/product');
+var Product = require('../models/product');
 
 
 exports.postProduct = function (req, res) {
