@@ -7,18 +7,18 @@ exports.postUser = function(req,res){
     });
 
     user.save(function(err){
-        if(err)
-            res.send(err)
-
+        if(err){
+            return res.send(err)
+        }
         res.json({message : "new user is added"});
     })
 };
 
 exports.getUsers = function(req, res) {
   User.find(function(err, users) {
-    if (err)
-      res.send(err);
-
+    if (err){
+       return res.send(err);
+    }
     res.json(users);
   });
 };

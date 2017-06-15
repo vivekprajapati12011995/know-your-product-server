@@ -15,8 +15,7 @@ exports.postProduct = function (req, res) {
     // Save the product and check for errors
     product.save(function (err) {
         if (err)
-            res.send(err);
-
+            return res.send(err);
         res.json({ message: 'product added', data: product });
     })
 };
@@ -24,7 +23,7 @@ exports.postProduct = function (req, res) {
 exports.getProducts = function (req, res) {
     Product.find(function (err, products) {
         if (err) {
-            res.send(err);
+            return res.send(err);
         }
         res.json(products);
     })
@@ -36,10 +35,8 @@ exports.getProduct = function (req, res) {
     // Use the product model to find a specific product
     Product.findById(req.params.id, function (err, product) {
         if (err) {
-            res.send(err);
+            return res.send(err);
         }
-
-
         res.json(product);
     });
 };
@@ -59,7 +56,7 @@ exports.updateProduct = function (req, res) {
         // Save the product and check for errors
         product.save(function (err) {
             if (err)
-                res.send(err);
+                return res.send(err);
 
             res.json(product);
         });
@@ -70,7 +67,7 @@ exports.deleteProduct = function (req, res) {
     // Use the product model to find a specific product and remove it
     Product.findByIdAndRemove(req.params.id, function (err) {
         if (err)
-            res.send(err);
+            return res.send(err);
 
         res.json({ message: 'product removed from DB' });
     });
