@@ -7,7 +7,6 @@ exports.postProduct = function (req, res) {
     // Set the product properties that came from the POST data
     product.p_name = req.body.p_name;
     product.p_quanty = req.body.p_quanty;
-    product.p_quanty = req.body.p_quanty;
     product.price = req.body.price;
     product.image = req.body.image;
 
