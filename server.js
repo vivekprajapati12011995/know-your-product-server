@@ -2,6 +2,8 @@ var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var cors = require('cors');
+mongoose.Promise = require('bluebird');
+var session = require('client-sessions');
 
 var productController = require('./controllers/productController');
 var userController = require('./controllers/userController');
@@ -15,12 +17,17 @@ var app = express();
 
 app.use(cors());
 
-mongoose.Promise = require('bluebird');
-
 var router = express.Router();
 
 app.use(bodyParser.urlencoded({
   extended: true
+}));
+
+app.use(session({
+  cookieName: 'session',
+  secret: 'random_string_goes_here',
+  duration: 30 * 60 * 1000,
+  activeDuration: 5 * 60 * 1000,
 }));
 
 // Register all our routes with /api
@@ -40,9 +47,10 @@ router.route('/products/:id')
 
 //Create endpoint handlers for /users
 router.route('/users')
-  .get(userController.getUsers)
+  .get(userController.getUser)
   .post(userController.postUser);
-
+  
+router.route('/login').post(userController.getUser);
 
 router.get('/', function (req, res) {
   res.json({ message: 'invalid request' });
