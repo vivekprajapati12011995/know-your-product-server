@@ -16,7 +16,12 @@ exports.postUser = function (req, res) {
         if (err) {
             return res.send(err)
         }
-        res.json({ message: "new user is added successfully !!" });
+        res.status(201).json({
+            "message": "user added successfully",
+            "data": user,           
+        });
+
+      
     })
 };
 
@@ -25,7 +30,12 @@ exports.getUsers = function (req, res) {
         if (err) {
             return res.send(err);
         }
-        res.json(users);
+        res.json({
+            "statusCode": 200,
+            "message": "user list",
+            "data": users,
+            "error": false
+        });
     });
 };
 
@@ -35,11 +45,16 @@ exports.getUser = function (req, res) {
             res.json({ "meassge": "no user is found" });
         } else {
             bcrypt.compare(req.body.password, user.password, function (err, isMatch) {
-                if (err)  res.json({ "meassge": "password is not correct" }); 
-                if(isMatch){
-                     req.session.user = user;
-                     res.json({ "message": "welcome to homepage" });
-                }  
+                if (err) res.json({ "meassge": "password is not correct" });
+                if (isMatch) {
+                    req.session.user = user;
+                    res.json({
+                        "statusCode": 200,
+                        "message": "login successfull",
+                        "data": user,
+                        "error": false
+                    });
+                }
             });
         }
     })

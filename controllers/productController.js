@@ -15,7 +15,12 @@ exports.postProduct = function (req, res) {
     product.save(function (err) {
         if (err)
             return res.send(err);
-        res.json({ message: 'product added', data: product });
+        res.json({
+            "statusCode": 200,
+            "message": "products added successfully",
+            "data": product,
+            "error": false
+        });
     })
 };
 
@@ -24,7 +29,12 @@ exports.getProducts = function (req, res) {
         if (err) {
             return res.send(err);
         }
-        res.json(products);
+        res.json({
+            "statusCode": 200,
+            "message": "products loaded successfully",
+            "data": products,
+            "error": false
+        });
     })
 }
 
