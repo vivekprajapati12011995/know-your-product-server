@@ -1,6 +1,8 @@
-var productController = require('../controllers/productController');
-var userController = require('../controllers/userController');
-var authController = require('../controllers/authController');
+const productController = require('../controllers/productController');
+const userController = require('../controllers/userController');
+const authController = require('../controllers/authController');
+const passport = require('passport');
+const Verify = require('./controllers/verify');
 
 module.exports = function(app,router){
 
@@ -10,21 +12,23 @@ app.use('/api', router);
 
 // Create endpoint handlers for /products
 router.route('/products')
-  .post(productController.postProduct)
-  .get(productController.getProducts);
+  .post(Verify.verifyOrdinaryUser,productController.postProduct)
+  .get(Verify.verifyOrdinaryUser,productController.getProducts);
 
 // Create endpoint handlers for /products/:id
 router.route('/products/:id')
-  .get(productController.getProduct)
-  .put(authController.isAuthenticated, productController.updateProduct)
-  .delete(authController.isAuthenticated, productController.deleteProduct);
+  .get(Verify.verifyOrdinaryUser,productController.getProduct)
+  .put(Verify.verifyOrdinaryUser, productController.updateProduct)
+  .delete(Verify.verifyOrdinaryUser, productController.deleteProduct);
 
 //Create endpoint handlers for /users
 router.route('/users')
-  .get(userController.getUsers)
+  .get(Verify.verifyOrdinaryUser,userController.getUsers)
   .post(userController.postUser);
 
-router.route('/login').post(userController.getUser);
+router.route('users/login').post(userController.login);
+
+router.route('users/logout').get(userController.logout);
 
 router.get('/', function (req, res) {
   res.json({ message: 'invalid request' });

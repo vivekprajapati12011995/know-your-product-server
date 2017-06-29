@@ -4,3 +4,6 @@ which is hosted on
 https://mlab.com/databases/star_wars_db#users
 
 > to start the server : npm run dev (it will start the server on defined port number)
+
+
+mongodb://vivek_mongo_db:vivek@1200@ds133922.mlab.com:33922/onlinesh

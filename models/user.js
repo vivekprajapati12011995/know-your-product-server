@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
+var passportLocalMongoose = require('passport-local-mongoose');
 
 var UserSchema = new mongoose.Schema({
 
@@ -18,13 +19,19 @@ var UserSchema = new mongoose.Schema({
     // unique: true,
     required: true
   },
-  
+
   password: {
     type: String,
     required: true
+  },
+  admin: {
+    type: Boolean,
+    default: false,
   }
 
 });
+
+UserSchema.plugin(passportLocalMongoose);
 
 UserSchema.pre('save', function (callback) {
   var user = this;

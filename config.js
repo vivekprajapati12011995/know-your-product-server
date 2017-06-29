@@ -22,8 +22,15 @@ var conf = convict({
   database: {
     host: {
       default: "mongodb://localhost:27017/shoppingmart",
+      // mongodb://vivek_mongo_db:vivek@1200@ds133922.mlab.com:33922/onlinesh
       env: "DB_HOST"
     }
+  },
+  localAuth: {
+    default:"12345-67890-54321-09876"
+  },
+  secretKey:{
+    default:"afafa"
   }
 });
  

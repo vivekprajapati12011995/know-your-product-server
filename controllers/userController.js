@@ -1,27 +1,22 @@
 var User = require('../models/user');
 var bcrypt = require('bcrypt-nodejs');
+const passport = require('passport');
 
 exports.postUser = function (req, res) {
-    // console.log("body: "+JSON.stringify(req.body));
     var user = new User({
-
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
-        username: req.body.username,
-        password: req.body.password
-
+        // firstname: req.body.firstname,
+        // lastname: req.body.lastname,
+        username: req.body.username
     });
 
-    user.save(function (err) {
-        if (err) {
-            return res.send(err)
+    User.register(user, req.body.password, function(err,user){
+        if(err){
+            return res.status(500).json({err: err});
         }
-        res.status(201).json({
-            "message": "user added successfully",
-            "data": user,           
-        });
+    });
 
-      
+    passport.authenticate('local')(req,res,function(){
+        return res.status(200).json({status:'registration successfull'})
     })
 };
 
@@ -39,23 +34,36 @@ exports.getUsers = function (req, res) {
     });
 };
 
-exports.getUser = function (req, res) {
-    User.findOne({ username: req.body.username }, function (err, user) {
-        if (!user) {
-            res.json({ "meassge": "no user is found" });
-        } else {
-            bcrypt.compare(req.body.password, user.password, function (err, isMatch) {
-                if (err) res.json({ "meassge": "password is not correct" });
-                if (isMatch) {
-                    req.session.user = user;
-                    res.json({
-                        "statusCode": 200,
-                        "message": "login successfull",
-                        "data": user,
-                        "error": false
-                    });
-                }
-            });
+exports.login = function (req, res,next) {
+    passport.authenticate('local',function(err,user,info){
+        if(err){
+            return next(err);
         }
-    })
+        if(!user){
+            return res.status(401).json({err:info})
+        }
+        req.login(user,function(err){
+            if(err){
+                res.status(500).json({message: 'you could not login'});
+            }
+            console.log("user in users "+user);
+            var token = Verify.getToken(user);
+
+            res.status(200).json({
+                status:'login successfull',
+                success: true,
+                JWT: token
+            })
+        })
+    })(req,res,next);
 }
+
+exports.logout(function(req,res){
+    req.logout();
+    res.status(200).json({
+        status:'logout',
+        message: 'logout successfully!'
+    })
+});
+
+
