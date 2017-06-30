@@ -16,19 +16,19 @@ exports.createUser = function (req, res) {
 };
 
 
-// exports.getUsers = function (req, res) {
-//     User.find(function (err, users) {
-//         if (err) {
-//             return res.send(err);
-//         }
-//         res.json({
-//             "statusCode": 200,
-//             "message": "user list",
-//             "data": users,
-//             "error": false
-//         });
-//     });
-// };
+exports.getUsers = function (req, res) {
+    User.find(function (err, users) {
+        if (err) {
+            return res.send(err);
+        }
+        res.json({
+            "statusCode": 200,
+            "message": "user list",
+            "data": users,
+            "error": false
+        });
+    });
+};
 
 exports.loginAction = function (req, res, next) {
         passport.authenticate('local',function(err,user,info){
@@ -42,7 +42,7 @@ exports.loginAction = function (req, res, next) {
             if(err){
                 res.status(500).json({message: 'you could not login'});
             }
-            console.log("user in users "+user);
+            // console.log("user in users "+user);
             var token = Verify.getToken(user);
 
             res.status(200).json({
@@ -57,9 +57,9 @@ exports.loginAction = function (req, res, next) {
 exports.logout = function (req, res) {
     req.logout();
     res.status(200).json({
-        status: 'logout',
+        status:'logout',
         message: 'logout successfully!'
-    })
+    });
 };
 
 
