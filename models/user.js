@@ -1,61 +1,20 @@
 var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt-nodejs');
 var passportLocalMongoose = require('passport-local-mongoose');
 
-var UserSchema = new mongoose.Schema({
-
-  firstname: {
-    type: String,
-    required: true
-  },
-
-  lastname: {
-    type: String,
-    required: true
-  },
-
-  username: {
-    type: String,
-    // unique: true,
-    required: true
-  },
-
-  password: {
-    type: String,
-    required: true
-  },
-  admin: {
+var User = new Schema({
+  firstname:String,
+  lastname:String,
+  username :String,
+  password :String,
+  admin:{
     type: Boolean,
-    default: false,
+    default: false
   }
-
 });
 
-UserSchema.plugin(passportLocalMongoose);
+User.plugin(passportLocalMongoose);
 
-UserSchema.pre('save', function (callback) {
-  var user = this;
 
-  // Break out if the password hasn't changed
-  if (!user.isModified('password')) return callback();
-
-  // Password changed so we need to hash it
-  bcrypt.genSalt(5, function (err, salt) {
-    if (err) return callback(err);
-
-    bcrypt.hash(user.password, salt, null, function (err, hash) {
-      if (err) return callback(err);
-      user.password = hash;
-      callback();
-    });
-  });
-});
-
-UserSchema.methods.verifyPassword = function (password, cb) {
-  bcrypt.compare(password, this.password, function (err, isMatch) {
-    if (err) return cb(err);
-    cb(null, isMatch);
-  });
-};
-
-module.exports = mongoose.model('User', UserSchema);
+module.exports = mongoose.model('User', User);

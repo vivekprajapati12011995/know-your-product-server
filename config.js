@@ -30,7 +30,7 @@ var conf = convict({
     default:"12345-67890-54321-09876"
   },
   secretKey:{
-    default:"afafa"
+    default:"12345-67890-54321-fghij"
   }
 });
  

@@ -1,8 +1,7 @@
 const productController = require('../controllers/productController');
 const userController = require('../controllers/userController');
-const authController = require('../controllers/authController');
 const passport = require('passport');
-const Verify = require('./controllers/verify');
+const Verify = require('../controllers/verify');
 
 module.exports = function(app,router){
 
@@ -26,9 +25,9 @@ router.route('/users')
   .get(Verify.verifyOrdinaryUser,userController.getUsers)
   .post(userController.postUser);
 
-router.route('users/login').post(userController.login);
+router.route('/login').post(userController.login);
 
-router.route('users/logout').get(userController.logout);
+router.route('/logout').get(userController.logout);
 
 router.get('/', function (req, res) {
   res.json({ message: 'invalid request' });

@@ -1,41 +1,37 @@
 var User = require('../models/user');
 var bcrypt = require('bcrypt-nodejs');
+var Verify = require('./verify');
 const passport = require('passport');
 
-exports.postUser = function (req, res) {
-    var user = new User({
-        // firstname: req.body.firstname,
-        // lastname: req.body.lastname,
-        username: req.body.username
-    });
-
-    User.register(user, req.body.password, function(err,user){
-        if(err){
-            return res.status(500).json({err: err});
-        }
-    });
-
-    passport.authenticate('local')(req,res,function(){
-        return res.status(200).json({status:'registration successfull'})
-    })
-};
-
-exports.getUsers = function (req, res) {
-    User.find(function (err, users) {
-        if (err) {
-            return res.send(err);
-        }
-        res.json({
-            "statusCode": 200,
-            "message": "user list",
-            "data": users,
-            "error": false
+exports.createUser = function (req, res) {
+    User.register(new User({ firstname: req.body.firstname, lastname: req.body.lastname, username: req.body.username }),
+        req.body.password, function (err, user) {
+            if (err) {
+                return res.status(500).json({ err: err });
+            }
+            passport.authenticate('local')(req, res, function () {
+                return res.status(200).json({ status: 'registration successfull' });
+            });
         });
-    });
 };
 
-exports.login = function (req, res,next) {
-    passport.authenticate('local',function(err,user,info){
+
+// exports.getUsers = function (req, res) {
+//     User.find(function (err, users) {
+//         if (err) {
+//             return res.send(err);
+//         }
+//         res.json({
+//             "statusCode": 200,
+//             "message": "user list",
+//             "data": users,
+//             "error": false
+//         });
+//     });
+// };
+
+exports.loginAction = function (req, res, next) {
+        passport.authenticate('local',function(err,user,info){
         if(err){
             return next(err);
         }
@@ -58,12 +54,12 @@ exports.login = function (req, res,next) {
     })(req,res,next);
 }
 
-exports.logout(function(req,res){
+exports.logout = function (req, res) {
     req.logout();
     res.status(200).json({
-        status:'logout',
+        status: 'logout',
         message: 'logout successfully!'
     })
-});
+};
 
 
