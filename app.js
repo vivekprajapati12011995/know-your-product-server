@@ -9,12 +9,11 @@ const path = require('path');
 const passport = require('passport');
 const config = require('./config.js');
 const LocalStrategy = require('passport-local').Strategy;
-const User = require('./models/user');``
+const User = require('./models/user');
 
 // import routes file
 var usersRoute = require('./routes/users');
 var productsRoute = require('./routes/products');
-
 
 // Create our Express application and passport support added
 var app = express();
