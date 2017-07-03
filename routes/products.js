@@ -6,7 +6,7 @@ const Verify = require('../controllers/verify');
 
 router.route('/')
   .post(Verify.verifyOrdinaryUser,productController.postProduct)
-  .get(Verify.verifyOrdinaryUser,productController.getProducts);
+  .get(productController.getProducts);
 
 // Create endpoint handlers for /products/:id
 router.route('/:id')

@@ -21,7 +21,7 @@ var conf = convict({
   },
   database: {
     host: {
-      default: "mongodb://localhost:27017/shoppingmart",
+      default: "mongodb://vivek_mongo_db:vivek1200@ds133922.mlab.com:33922/onlinesh",
       // mongodb://vivek_mongo_db:vivek@1200@ds133922.mlab.com:33922/onlinesh
       env: "DB_HOST"
     }
