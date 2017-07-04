@@ -9,7 +9,7 @@ router.use(Verify.verifyOrdinaryUser);
 
 
 router.route('/')
-  .post(productController.postProduct)
+  .post(Verify.verifyOrdinaryUser,productController.postProduct)
   .get(productController.getProducts);
 
 // Create endpoint handlers for /products/:id
