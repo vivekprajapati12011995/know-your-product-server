@@ -4,14 +4,18 @@ var router = express.Router();
 const productController = require('../controllers/productController');
 const Verify = require('../controllers/verify');
 
+router.use(Verify.verifyOrdinaryUser);
+
+
+
 router.route('/')
-  .post(Verify.verifyOrdinaryUser,productController.postProduct)
-  .get(Verify.verifyOrdinaryUser,productController.getProducts);
+  .post(productController.postProduct)
+  .get(productController.getProducts);
 
 // Create endpoint handlers for /products/:id
 router.route('/:id')
-  .get(Verify.verifyOrdinaryUser,productController.getProduct)
-  .put(Verify.verifyOrdinaryUser, productController.updateProduct)
-  .delete(Verify.verifyOrdinaryUser, productController.deleteProduct);
+  .get(productController.getProduct)
+  .put(productController.updateProduct)
+  .delete( productController.deleteProduct);
 
 module.exports = router;

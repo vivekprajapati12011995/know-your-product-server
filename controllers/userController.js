@@ -4,7 +4,9 @@ var Verify = require('./verify');
 const passport = require('passport');
 
 exports.createUser = function (req, res) {
-    User.register(new User({ firstname: req.body.firstname, lastname: req.body.lastname, username: req.body.username }),
+    User.register(new User({ firstname: req.body.firstname, 
+        lastname: req.body.lastname, 
+        username: req.body.username }),
         req.body.password, function (err, user) {
             if (err) {
                 return res.status(500).json({ err: err });
